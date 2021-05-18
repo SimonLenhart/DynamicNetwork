@@ -1,0 +1,2 @@
+OpenCPU (https://CRAN.R-project.org/package=opencpu), Apache License 2.0
+move (https://CRAN.R-project.org/package=move), GPL3

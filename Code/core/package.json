@@ -1,0 +1,44 @@
+{
+  "name": "teamwise",
+  "version": "0.0.1",
+  "description": "TEAMWISE stands for Tool for Exploration and Analysis of Movement data Within Immersive Synchronised Environments. It's an open source, web-based stand-alone application that allows researchers to load local geo-temporal data either from the local file system or from the Movebank database (movebank.org). The data can then be explored and analysed in an intuitive way, allowing for multiple synchronised views.",
+  "homepage": "https://www.cls.uni-konstanz.de",
+  "license": "UNLICENSED",
+  "author": "University of Konstanz, Department of Computer and and Information Science, Life Science Informatics - Prof Dr. Falk Schreiber",
+  "contributors": [
+    "Michael Aichem",
+    "Stefan Erk",
+    "Alexej Gluschkow",
+    "Karsten Klein",
+    "Kim Rehberg",
+    "Falk Schreiber",
+    "Björn Sommer",
+    "Ying Zhang"
+  ],
+  "keywords": [
+    "collective",
+    "behaviour",
+    "movement",
+    "trajectories",
+    "immersive",
+    "analytics"
+  ],
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.8.0",
+    "compression": "^1.6.2",
+    "express": "^4.15.0",
+    "express-fileupload": "^1.1.3-alpha.1",
+    "request": "^2.79.0",
+    "requirejs": "^2.3.2",
+    "ws": "^6.2.0",
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-plugin-jsdoc": "^4.5.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

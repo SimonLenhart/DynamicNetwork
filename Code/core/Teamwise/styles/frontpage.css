@@ -1,0 +1,83 @@
+    @import url(3rdParty/jquery-ui-1.10.3/themes/vader/jquery-ui.css);
+    @import url(../Build/Cesium/Widgets/widgets.css);
+    @import url(../templates/bucket.css);
+     
+    h2 {
+        margin-top: 0;
+    }
+
+    table, p {
+        margin-left: 25px;
+    }
+
+    td {
+        padding-bottom: 15px;
+        vertical-align: top;
+    }
+
+    td:first-child {
+        padding-right: 15px;
+    }
+
+    .section:nth-child(even) {
+        background-color: #fff;
+    }
+
+    .section {
+        border: none;
+        padding: 20px 40px;
+        clear: both;
+    }
+
+    .section > * {
+        max-width: 800px;
+    }
+
+    
+    dt {
+        margin-top: 10px;
+    }
+    
+    dd {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    dl {
+        margin-top: 30px;
+    }
+    
+    li {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        /* font-weight: bold; */
+        font-family: Sans-serif;
+        font-size: 20px;
+    }
+    
+    ul {
+        list-style-type: none;
+        margin-bottom: 30px;
+    }  
+      div.gallery {
+        margin: 5px;
+        border: 1px solid #ccc;
+        width: 20%;
+        float: left;
+      }
+      
+      div.gallery:hover {
+        border: 1px solid #777;
+      }
+      
+      div.gallery img {
+        width: 100%;
+        height: auto;
+      }
+      
+      div.desc {
+        padding: 15px;
+        text-align: center;
+      }
+         /* end style for front page pics */  

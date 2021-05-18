@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="x-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Teamwise</title>
+  
+  <!-- The Cesium source. -->
+  <script src="../Build/Cesium/Cesium.js"></script>
+  
+  <!-- Third party scripts that are deliverered via web service. -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/webvr-polyfill@latest/build/webvr-polyfill.js'></script>
+  <script src="https://d3js.org/d3.v4.js">'use strict';</script>
+
+  <!-- Third party scripts that are shipped with Teamwise. -->
+  <script src="./movebank/opencpu.js"></script>
+
+  <link rel="stylesheet" href="./styles/general.css">
+  <link rel="stylesheet" href="./styles/Menu.css">
+  <link rel="stylesheet" href="./styles/chart.css">
+  <link rel="stylesheet" href="./styles/view2d.css">
+  <link rel="stylesheet" href="./styles/w3.css">
+
+</head>
+
+<body>
+  <button id="openMenuButton" class="w3-button w3-theme-d4 w3-xlarge w3-hover-theme" style="position:absolute; width: 52px; height: 52px; z-index: 2">&#9776;</button>
+  <div class="w3-bar-block" style="position: absolute; width: 30px; top: 52px; z-index: 2">
+    <button id="gamepadButton" class="w3-button w3-bar-item w3-theme-d4 w3-hover-theme" style="padding: 5px"><i class="material-icons" style="font-size: 20px">videogame_asset</i></button>
+  </div>
+  
+  <!-- The UI is built from the light-weight W3.css library. For more information see the respective docs at https://www.w3schools.com/w3css/ -->
+  <!-- The w3-row element provides a responsive grid -->
+  <div id="responsiveGrid" class="w3-row" style="position: absolute; width: 100%; height: 100%">
+    <!-- The navigation bar. Its width responds to the current device's display resolution. -->
+    <!-- Any button must have the id "[name]MenuButton" and its respective panel must have the id "[name]MenuPanel" -->
+    <div id="sidebar" class="w3-col l3 m4 s12 w3-container"
+      style="height: 100%; padding-left: 0; padding-right: 0; display: none">
+      <div id="navigationBar" class="w3-theme-l4" style="height: 40%">
+        <div class="w3-bar">
+        <button id="closeMenuButton" class="w3-button w3-bar-item w3-theme-d4 w3-hover-theme w3-xlarge" style="width: 80%">&#9776; Menu
+        </button>
+        <button id="hideMenuButton" class="w3-button w3-bar-item w3-theme-l2 w3-hover-theme w3-xlarge" style="height: 52px; width: 20%; padding: 0">
+          <i id="menuArrowUp" class="material-icons" style="font-size: 40px; display: block">arrow_drop_up</i>
+          <i id="menuArrowDown" class="material-icons" style="font-size: 40px; display: none">arrow_drop_down</i>
+        </div>
+        
+        <div id="menuButtonDiv" class="w3-bar-block" style="overflow-y: auto; height: calc(100% - 52px)">
+          <button id="dataManagementMenuButton"
+            class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme accordionMenuButton"><i class="material-icons">input</i>
+            Data Management</button>
+          <!-- Invisible 2nd level navigation bar that becomes visible when parent button is clicked -->
+          <!-- Any button must have the id "[name]MenuButton" and its respective accordion must have the id "[name]MenuButtonAccordion" -->
+          <div id="dataManagementMenuButtonAccordion" class="w3-hide accordion">
+            <button id="localFileMenuButton"
+              class="w3-bar-item w3-button w3-leftbar w3-border-white w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i
+                class="material-icons">folder_open</i> Local Data</button>
+            <button id="movebankMenuButton"
+              class="w3-bar-item w3-button w3-leftbar w3-border-white w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i
+                class="material-icons">cloud_download</i> Movebank Data</button>
+          </div>
+          <button id="analysisMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme menuButton"><i
+              class="material-icons">multiline_chart</i> Analysis</button>
+          <button id="eventMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme menuButton"><i
+              class="material-icons">event</i> Event Detection</button>
+          <button id="cameraMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme menuButton"><i
+              class="material-icons">videocam</i> Camera Setup</button>
+          <button id="qrCodeMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme menuButton"><i
+              class="material-icons">smartphone</i> QR Code</button>
+          <button id="settingsMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme accordionMenuButton"><i
+              class="material-icons">settings</i> Settings</button>
+          <div id="settingsMenuButtonAccordion" class="w3-hide accordion">
+            <button id="generalSettingsMenuButton"
+              class="w3-bar-item w3-button w3-leftbar w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i class="material-icons">settings</i>
+              General</button>
+            <button id="gamepadSettingsMenuButton"
+              class="w3-bar-item w3-button w3-leftbar w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i
+                class="material-icons">videogame_asset</i> Gamepad</button>
+          </div>
+          <button id="aboutMenuButton" class="w3-bar-item w3-button w3-theme-l2 w3-hover-theme accordionMenuButton"><i
+              class="material-icons">info</i> About</button>
+          <div id="aboutMenuButtonAccordion" class="w3-hide accordion">
+            <button id="teamMenuButton" class="w3-bar-item w3-button w3-leftbar w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i class="material-icons">people</i>
+              Team</button>
+            <button id="licensesMenuButton"
+              class="w3-bar-item w3-button w3-leftbar w3-theme-l3 w3-hover-theme subMenuButton"
+              style="border-color: #3c7bc9 !important; border-width: 10px !important"><i class="material-icons">code</i>
+              Licenses</button>
+          </div>
+          <!-- Anchor to place new buttons. Use $("#newButtonAnchor").before() to put another button here. -->
+          <div id="newButtonAnchor"></div>
+        </div>
+      </div>
+      <!-- The menu content container. Its width also scales according to the current device's width -->
+      <!-- Any available menu panel is listed inside this container with a default of being not displayed, changing when the respective button has been clicked. -->
+      <div id="panelDiv" class="w3-container w3-theme-l5" style="height: 60%; padding-left: 0; padding-right: 0">
+        <!-- The general load and manage data menu panel -->
+        <div id="dataManagementMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Data Management
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b>Current Selection</b></p>
+                <form id="dataSourceSelector" action="javascript:void(0)">
+                  <div style="max-width: 300px">
+                    <p><select id="dataset" class="w3-select w3-round-large w3-border"
+                        style="padding-left: 5px; padding-top: 2px; padding-bottom: 2px; width: 100%"
+                        name="dataset"></select></p>
+                    <p><input class="w3-button w3-round-large w3-theme-d2 w3-hover-theme" style="width: 100%" type="submit"
+                        id="testbtn" value="Switch Dataset"></p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="localFileMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Local Data
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> Select a file: </b></p>
+                <form id="fileUploadForm" method="POST" enctype="multipart/form-data" action="javascript:void(0)">
+                  <div style="max-width: 300px">
+                    <p><input type="file" name="upload"></p>
+                    <p><input class="w3-button w3-round-large w3-theme-d2 w3-hover-theme" style="width: 100%" type="submit"
+                        value="Load and switch dataset"></p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="movebankMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Movebank Data
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div id="movebankLoginPanel" class="w3-card-4 w3-panel w3-padding">
+                <p><b> Login data required </b></p>
+                <form id="loginForm" action="javascript:void(0)">
+                  <div style="max-width: 300px">
+                    <p><input class="w3-input w3-border w3-border-gray w3-round-large"
+                        style="padding-left: 5px; padding-top: 2px; padding-bottom: 2px; width: 100%" type="text"
+                        name="username">
+                      <label class="w3-small">User Name</label> </p>
+    
+                    <p><input class="w3-input w3-border w3-border-gray w3-round-large"
+                        style="padding-left: 5px; padding-top: 2px; padding-bottom: 2px; width: 100%" type="password"
+                        name="password">
+                      <label class="w3-small">Password</label> </p>
+    
+                    <input class="w3-button w3-round-large w3-theme-d2 w3-hover-theme" style="width: 100%" type="submit"
+                      name="submitButton" value="Login">
+                  </div>
+                </form>
+    
+              </div>
+              <div id="movebankDataPanel" class="w3-card-4 w3-panel w3-padding" style="display: none">
+                Logged in as <strong id="loggedInAs"></strong>
+                <input type="button" id="logoutButton" value="Logout" />
+                <br>
+                <form id="searchStudyForm" action="javascript:void(0)">
+                  <input type="search" name="query" placeholder="study name or id">
+                  <select name="filter">
+                    <option value="data">studies where I can see data</option>
+                    <option value="owner">studies that I am owner of</option>
+                    <option value="all">all studies</option>
+                  </select>
+                  <input type="submit" value="Search" />
+                </form>
+                <br>
+                <form id="loadMbDataForm" action="javascript:void(0)">
+                  <div id="studyListContainer" class="listContainer">
+                    List of found studies:
+                    <label>
+                      <input type="checkbox" id="studyMarker">
+                      Show a marker on the globe.
+                    </label>
+                    <ol id="listOfStudies"></ol>
+                  </div>
+                  <br>
+                  <div id="animalListContainer" class="listContainer">
+                    Animals in this study:
+                    <ol id="listOfAnimals"></ol>
+                  </div>
+                  <input type="submit" id="loadMbDataButton" value="load Data" disabled>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="analysisMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Analysis Settings
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b>Preferences</b></p>
+                <label>
+                  <input type="checkbox" id="lineChart" />
+                  Line Chart </br>
+                </label>
+                <label>
+                  <input type="checkbox" id="moveInfoBox" />
+                  Moving Information </br>
+                </label>
+                <label>
+                  <input type="checkbox" id="2dView" />
+                  Top 2D overview </br>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="eventMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Event Detection
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="cameraMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Camera Management
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> Predefined View Settings </b></p>
+                <p class="w3-small"> <b>Camera attached to position and orientation of selected entity: </b></p>
+                <div style="max-width: 300px">
+                  <div class="w3-container w3-display-container" style="margin-top: 32px; margin-bottom: 32px">
+                    <button id="camSet1"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-left w3-small"
+                      style="width: 30%">Near</button>
+                    <button id="camSet2"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-middle w3-small"
+                      style="width: 30%">Medium</button>
+                    <button id="camSet3"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-right w3-small"
+                      style="width: 30%">Far</button>
+                  </div>
+                </div>
+                <p class="w3-small"> <b> Camera attached to position of selected entity: </b></p>
+                <div style="max-width: 300px">
+                  <div class="w3-container w3-display-container" style="margin-top: 32px; margin-bottom: 32px">
+                    <button id="camSet4"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-left w3-small"
+                      style="width: 30%">Near</button>
+                    <button id="camSet5"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-middle w3-small"
+                      style="width: 30%">Far</button>
+                    <button id="camSet6"
+                      class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-display-right w3-small"
+                      style="width: 30%">Very far</button>
+                  </div>
+                </div>
+                <p class="w3-small"> <b> Camera not attached: </b></p>
+                <div style="max-width: 300px">
+                  <button id="camSet7" class="w3-button w3-round-large w3-theme-d2 w3-hover-theme w3-small"
+                    style="width: 100%"> Not attached</button>
+                </div>
+              </div>
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> Customizable View </b></p>
+                Some fancy sliders etc.
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="qrCodeMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              QR Code
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+                <div id="qrCodePosition"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="settingsMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Settings
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="generalSettingsMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              General Settings
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+                <label title="This creates smoother animation for high frequency data but might fail on longer intervals.">
+                  <input type="checkbox" id="interpolation" />
+                  use polynomial interpolation
+                </label>
+                <br>
+                <label title="If this option is active, the complete trajectory of the selected bird is shown.">
+                  <input type="checkbox" id="leadPath" />
+                  show full trajectory of the selected bird
+                </label>
+                <br>
+                <label title="If this option is active, small points indicate the actual recorded data.">
+                  <input type="checkbox" id="dataPoints" />
+                  show data points around bird
+                </label>
+              </div>
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> Cesium ion key </b></p>
+                <form id="settingsForm" action="javascript:void(0)">
+                  <div style="max-width: 300px">
+                    <p><input class="w3-input w3-border w3-border-gray w3-round-large"
+                        style="padding-left: 5px; padding-top: 2px; padding-bottom: 2px; width: 100%" type="text"
+                        name="ionKey">
+                      <label class="w3-small">Cesium ion Key</label> </p>
+    
+                    <input class="w3-button w3-round-large w3-theme-d2 w3-hover-theme" style="width: 100%" type="submit"
+                      value="Save">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="gamepadSettingsMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Gamepad Settings
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="aboutMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              About
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> TEAMWISE </b></p>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="teamMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Team
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Menu panel -->
+        <div id="licensesMenuPanel" class="menuPanel" style="display: none; height: 100%">
+          <div class="w3-container w3-theme-d2 w3-xlarge w3-display-container" style="height: 52px; overflow-x: hidden">
+            <div class="w3-display-middle" style="white-space: nowrap">
+              Licenses
+            </div>
+          </div>
+          <div class="w3-theme-l5" style="height: calc(100% - 52px); overflow-y: auto">
+            <div style="margin: 12px">
+              <div class="w3-card-4 w3-panel w3-padding">
+                <p><b> CardHeader </b></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Anchor for new panels. Use $("#newPAnelAnchor").before() to put another panel here. -->
+        <div id="newMenuPanelAnchor"></div>
+      </div>
+    </div>
+    
+    <div class="w3-rest w3-container" style="height:100%; padding-left: 0; padding-right: 0">
+      <div id="cesiumContainer"></div>
+      <div id="d3panel" class="d3panel">
+        <svg class="chart"></svg>
+      </div>
+      <div id="movingInfoBox" class="mInfoBox">
+      </div>
+      <div id="view2D" class="viewBox">
+        <!-- <svg class="viewBox"></svg> -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Teamwise code. -->
+  <!-- Note: handlers.js / mainCore.js must be the first scripts to load! -->
+  <script type="module" src="./mainCore.js"></script>
+  <script type="module" src="./VR/mainVRbasic.js"></script>
+  <script type="module" src="./d3visualisations.js"></script>
+  <script type="module" src="./gamepadSupport/ps4GamepadHandler.js"></script>
+  <script src="../extensions/network_extension/node_modules/@dagrejs/graphlib/dist/graphlib.min.js"></script>
+  <script src="../extensions/network_extension/node_modules/chart.js/dist/chart.min.js"></script>

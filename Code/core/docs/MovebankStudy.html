@@ -1,0 +1,2990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: MovebankStudy</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: MovebankStudy</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>MovebankStudy<span class="signature">(study)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">A wrapper class for meta and tracking data of studies stored in the Movebank.Provides functions to load animal meta and tracking data.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="MovebankStudy"><span class="type-signature"></span>new MovebankStudy<span class="signature">(study)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a new MovebankStudy.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>study</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the study meta data as stored in the Movebank
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the Movebank identifier of this study</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the name of this study</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line469">line 469</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="_animalData"><span class="type-signature"></span>_animalData<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The references to the R object holding the data of an animal.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line481">line 481</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="_animals"><span class="type-signature"></span>_animals<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The list of animals in this study.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line478">line 478</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="_deployments"><span class="type-signature"></span>_deployments<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    The list of deployments associated with an animal.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line484">line 484</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="_noDataAvailable"><span class="type-signature"></span>_noDataAvailable<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Flag to set after a download attempt with the respective message.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line490">line 490</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="_study"><span class="type-signature"></span>_study<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Holds the actual study information.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line487">line 487</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="acknowledgements"><span class="type-signature"></span>acknowledgements<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Acknowledgements for the study.These can include institutions that provided funding or site accessand the names of field assistants, collaborators, etc.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line500">line 500</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="citation"><span class="type-signature"></span>citation<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    A citation for the study.If the data are equivalent to those in a published study, the existingpublication can be cited. If the data have not been published, an"unpublished data" or "in progress" citation should be used, listingauthors and a title for the data set.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line513">line 513</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="enable_for_animal_tracker"><span class="type-signature"></span>enable_for_animal_tracker<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    ???
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line520">line 520</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="grants_used"><span class="type-signature"></span>grants_used<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    A list or description of grants used to fund the research.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line528">line 528</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="has_quota"><span class="type-signature"></span>has_quota<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    ???
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line536">line 536</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="i_am_owner"><span class="type-signature"></span>i_am_owner<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    Whether the user that loaded the study is the study administrator.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line544">line 544</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="i_can_see_data"><span class="type-signature"></span>i_can_see_data<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    Whether the user that loaded the study is able to see some data.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line552">line 552</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"> :number</span></h4>
+
+
+
+
+<div class="description">
+    The unique identifier of this study as stored in the Movebank.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line560">line 560</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="license_terms"><span class="type-signature"></span>license_terms<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Terms of use for the data in the study, provided by the study owner.If no license terms are specified, the [General Movebank Terms ofUse](https://www.movebank.org/node/1934) apply.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line571">line 571</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="main_location"><span class="type-signature"></span>main_location<span class="type-signature"> :Cesium.Cartesian3</span></h4>
+
+
+
+
+<div class="description">
+    A reference location for the study chosen by the data owner that is usedas the location for the study marker shown on the Movebank map.This location can represent a colony, homing location, deployment site,resesarch institute location, or other location relevant to the study.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Cesium.Cartesian3</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line583">line 583</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The name of the study in Movebank in which data are stored.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line593">line 593</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="no_data_available"><span class="type-signature"></span>no_data_available<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    Indicates that there is no data to download for this study.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line601">line 601</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="principal_investigator_address"><span class="type-signature"></span>principal_investigator_address<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The address of the <a href="MovebankStudy.html#principal_investigator_name">MovebankStudy#principal_investigator_name</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line609">line 609</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="principal_investigator_email"><span class="type-signature"></span>principal_investigator_email<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The email of the <a href="MovebankStudy.html#principal_investigator_name">MovebankStudy#principal_investigator_name</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line617">line 617</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="principal_investigator_name"><span class="type-signature"></span>principal_investigator_name<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The principal investigator (PI) or lead researcher for the study.This can be a Movebank user, or information for non-registered PIsor multiple PIs can be provided manually.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line628">line 628</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="study_objective"><span class="type-signature"></span>study_objective<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    A brief description of the study objectives, methods, and results.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line636">line 636</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="study_type"><span class="type-signature"></span>study_type<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The category of Movebank entry, e.g. "research".
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line644">line 644</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="suspend_license_terms"><span class="type-signature"></span>suspend_license_terms<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    ???
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line652">line 652</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="there_are_data_which_i_cannot_see"><span class="type-signature"></span>there_are_data_which_i_cannot_see<span class="type-signature"> :boolean</span></h4>
+
+
+
+
+<div class="description">
+    Whether the study contains data that is not visible to this user.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line660">line 660</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="timestamp_end"><span class="type-signature"></span>timestamp_end<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The timestamp when the study ended.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line668">line 668</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="timestamp_start"><span class="type-signature"></span>timestamp_start<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    The timestamp when the study was started.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line676">line 676</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAnimals"><span class="type-signature">(async) </span>getAnimals<span class="signature">(account)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Animal.html">Animal</a>>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns or fetches and stores the list of animals of this study.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Movebank.html">Movebank</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a valid Movebank login</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line685">line 685</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the animal list of this study
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;<a href="Animal.html">Animal</a>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getData"><span class="type-signature">(async) </span>getData<span class="signature">(animalId, account)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Object>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns the actual (movement) data of the given animal.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>animalId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the identifier of the animal</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Movebank.html">Movebank</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the Movebank login to use</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line754">line 754</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the data to the study and animal
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;Object>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getDeployments"><span class="type-signature">(async) </span>getDeployments<span class="signature">(animalId, account)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="Deployment.html">Deployment</a>>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns the deployments that are associated with a given animal.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>animalId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the identifier of the animal</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Movebank.html">Movebank</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a valid Movebank account</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line789">line 789</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the list of deployments
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array.&lt;<a href="Deployment.html">Deployment</a>>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getMoveObj"><span class="type-signature">(async) </span>getMoveObj<span class="signature">(animalId, account)</span><span class="type-signature"> &rarr; {Promise.&lt;R.Session>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns or loads and stores the move object of an animal in this study.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>animalId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the identifier of the animal</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Movebank.html">Movebank</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the Movebank login to use</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line729">line 729</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the data of this animal
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;R.Session></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="loadDataSource"><span class="type-signature">(async) </span>loadDataSource<span class="signature">(animals, account)</span><span class="type-signature"> &rarr; {Promise.&lt;Cesium.DataSource>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Creates a data source from the animal data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>animals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="Animal.html">Animal</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the animals to load</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Movebank.html">Movebank</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the reference to the Movebank login</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="movebank_movebank.js.html">movebank/movebank.js</a>, <a href="movebank_movebank.js.html#line765">line 765</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    the created data source
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Cesium.DataSource></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Animal.html">Animal</a></li><li><a href="DataSourceChangedHandler.html">DataSourceChangedHandler</a></li><li><a href="Deployment.html">Deployment</a></li><li><a href="EntityChangedHandler.html">EntityChangedHandler</a></li><li><a href="EventHandler.html">EventHandler</a></li><li><a href="MenuPanel.html">MenuPanel</a></li><li><a href="MenuPanelCard.html">MenuPanelCard</a></li><li><a href="Movebank.html">Movebank</a></li><li><a href="MovebankStudy.html">MovebankStudy</a></li><li><a href="PS4GamepadHandler.html">PS4GamepadHandler</a></li><li><a href="StartupHandler.html">StartupHandler</a></li><li><a href="TimeChangedHandler.html">TimeChangedHandler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addDataSourceOption">addDataSourceOption</a></li><li><a href="global.html#addMenuButtonWithFullSizePanel">addMenuButtonWithFullSizePanel</a></li><li><a href="global.html#addMenuButtonWithoutPanel">addMenuButtonWithoutPanel</a></li><li><a href="global.html#asIso8601">asIso8601</a></li><li><a href="global.html#BAD_LOGIN">BAD_LOGIN</a></li><li><a href="global.html#clearDirectory">clearDirectory</a></li><li><a href="global.html#closeAccordions">closeAccordions</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createAccordionMenuEntry">createAccordionMenuEntry</a></li><li><a href="global.html#createDataSource">createDataSource</a></li><li><a href="global.html#createDescriptionString">createDescriptionString</a></li><li><a href="global.html#createEntity">createEntity</a></li><li><a href="global.html#createExtensionMenuEntry">createExtensionMenuEntry</a></li><li><a href="global.html#createListEntry">createListEntry</a></li><li><a href="global.html#createLogin">createLogin</a></li><li><a href="global.html#createNormalMenuEntry">createNormalMenuEntry</a></li><li><a href="global.html#createPanelHtmlString">createPanelHtmlString</a></li><li><a href="global.html#createQrCode">createQrCode</a></li><li><a href="global.html#createViewer">createViewer</a></li><li><a href="global.html#d3Date">d3Date</a></li><li><a href="global.html#d3Startup">d3Startup</a></li><li><a href="global.html#dataPoints">dataPoints</a></li><li><a href="global.html#extensionCount">extensionCount</a></li><li><a href="global.html#extractData">extractData</a></li><li><a href="global.html#fullTrajectory">fullTrajectory</a></li><li><a href="global.html#getInterpolationOptions">getInterpolationOptions</a></li><li><a href="global.html#hideMenuPanels">hideMenuPanels</a></li><li><a href="global.html#initEntities">initEntities</a></li><li><a href="global.html#initGamepad">initGamepad</a></li><li><a href="global.html#initSync">initSync</a></li><li><a href="global.html#lineChart">lineChart</a></li><li><a href="global.html#loadAllStudies">loadAllStudies</a></li><li><a href="global.html#loadAnimals">loadAnimals</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadDeployments">loadDeployments</a></li><li><a href="global.html#loadKmlFile">loadKmlFile</a></li><li><a href="global.html#loadMbData">loadMbData</a></li><li><a href="global.html#manageCameraAttachment">manageCameraAttachment</a></li><li><a href="global.html#markButton">markButton</a></li><li><a href="global.html#minAlt">minAlt</a></li><li><a href="global.html#modelURI">modelURI</a></li><li><a href="global.html#movebank">movebank</a></li><li><a href="global.html#NO_DATA_AVAILABLE">NO_DATA_AVAILABLE</a></li><li><a href="global.html#NOT_LOGGED_IN">NOT_LOGGED_IN</a></li><li><a href="global.html#ocpuCall">ocpuCall</a></li><li><a href="global.html#ocpuRPC">ocpuRPC</a></li><li><a href="global.html#onDataSourceChanged">onDataSourceChanged</a></li><li><a href="global.html#onEntityChanged">onEntityChanged</a></li><li><a href="global.html#onStudySelected">onStudySelected</a></li><li><a href="global.html#onTimeChanged">onTimeChanged</a></li><li><a href="global.html#PERMISSION_DENIED">PERMISSION_DENIED</a></li><li><a href="global.html#queryGamepads">queryGamepads</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#restoreButtonBackgrounds">restoreButtonBackgrounds</a></li><li><a href="global.html#restoreSubMenuButtonBackgrounds">restoreSubMenuButtonBackgrounds</a></li><li><a href="global.html#saveConfig">saveConfig</a></li><li><a href="global.html#saveFile">saveFile</a></li><li><a href="global.html#searchStudies">searchStudies</a></li><li><a href="global.html#sendFilePath">sendFilePath</a></li><li><a href="global.html#setCameraAttachment">setCameraAttachment</a></li><li><a href="global.html#setCheckboxAction">setCheckboxAction</a></li><li><a href="global.html#setFormAction">setFormAction</a></li><li><a href="global.html#setOnEventAction">setOnEventAction</a></li><li><a href="global.html#showLineChart">showLineChart</a></li><li><a href="global.html#startup">startup</a></li><li><a href="global.html#startupHandler">startupHandler</a></li><li><a href="global.html#studyDescription">studyDescription</a></li><li><a href="global.html#studyMarker">studyMarker</a></li><li><a href="global.html#switchToDataSource">switchToDataSource</a></li><li><a href="global.html#TEMP_DIR">TEMP_DIR</a></li><li><a href="global.html#terrainMinAlt">terrainMinAlt</a></li><li><a href="global.html#toggleMenu">toggleMenu</a></li><li><a href="global.html#updateViews">updateViews</a></li><li><a href="global.html#uploadAndSendFile">uploadAndSendFile</a></li><li><a href="global.html#uploadFile">uploadFile</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#ws">ws</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 25 2019 15:55:20 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

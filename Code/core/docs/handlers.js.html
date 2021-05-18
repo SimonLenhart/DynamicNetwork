@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: handlers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: handlers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*exported StartupHandler DataSourceChangedHandler EntityChangedHandler TimeChangedHandler*/
+
+/**
+ * Waits for tasks to be done before Cesium is started and executes callbacks to
+ * start after the initialization has finished.
+ */
+class StartupHandler {
+    /** @inheritdoc */
+    constructor() {
+        /**
+         * The list of tasks to wait for before viewer initialization.
+         * @type {Array&lt;Promise&lt;*>>}
+         */
+        this._preStartup = [];
+
+        /**
+         * The list of tasks to do after viewer initialization.
+         * @type {Array&lt;StartupCallback>}
+         */
+        this._postStartup = [];
+
+        /**
+         * Whether the post startup tasks have already been started.
+         * @type {boolean}
+         */
+        this._startupRun = false;
+    }
+
+    /**
+     * Adds an initialization task to the before-startup procedure.
+     *
+     * This function accepts a promise that resolves after completion of some
+     * action that has to be finished before the viewer is created.
+     * Note that Cesium will not start before all tasks have terminated, so
+     * do not put heavy computation in these methods.
+     * @param {Promise&lt;*>} task a promise that wraps a task that needs to
+     *     be executed before the viewer is created.
+     */
+    addBeforeStartup(task) {
+        // No tasks must be added after the startup has run.
+        if (this._startupRun) {
+            throw new Error("Tasks cannot be added after startup has run.");
+        }
+
+        // Add the new task.
+        if (task &amp;&amp; task instanceof Promise) {
+            this._preStartup.push(task);
+        } else {
+            throw new Error("Task must be a Promise");
+        }
+    }
+
+    /**
+     * Adds an initialization task to the after-startup procedure.
+     *
+     * This function accepts a callback that is called after creation of the
+     * viewer. Viewer and sync mode are passed to the callback as parameters.
+     * @param {StartupCallback} task a function to call after the viewer is
+     *     initialized
+     */
+    addAfterStartup(task) {
+        // No tasks must be added after the startup has run.
+        if (this._startupRun) {
+            throw new Error("Tasks cannot be added after startup has run.");
+        }
+
+        // Callbacks must be executable.
+        if (task &amp;&amp; typeof task === "function") {
+            this._postStartup.push(task);
+        } else {
+            throw new Error("After startup callback must be a function");
+        }
+    }
+
+    /**
+     * Checks whether all pre-startup tasks are finished.
+     * @returns {Promise&lt;void>} a promise that resolves after all tasks completed
+     */
+    async tasksFinished() {
+        // Stop other tasks from being added.
+        this._startupRun = true;
+
+        // Signalize whether all tasks are finished (but return nothing).
+        await Promise.all(this._preStartup);
+    }
+
+    /**
+     * Executes the initialization tasks that need the viewer.
+     * @param {Cesium.Viewer} viewer the viewer
+     * @param {string} mode the synchronization mode Teamwise is running in
+     */
+    afterViewerInit(viewer, mode) {
+        this._postStartup.forEach(callback => callback(viewer, mode));
+    }
+}
+
+
+/**
+ * A handler that holds jobs to be executed when triggering the event listener
+ * that this handler is assigned to.
+ */
+class EventHandler {
+    /** @inheritdoc */
+    constructor() {
+        /**
+         * Holds the registered callbacks.
+         * @type {Array&lt;ElementChangedCallback>}
+         */
+        this._jobs = [];
+
+        /**
+         * The element on which the latest callbacks were triggered.
+         * @type {Observable}
+         */
+        this._previous = null;
+    }
+
+    /**
+     * Add a callback to the handler that is executed when the handler runs.
+     *
+     * If the handler already contains this callback, it is not added again.
+     * @param {ElementChangedCallback} callback the callback to execute
+     * @returns {boolean} whether the callback was not contained before
+     */
+    add(callback) {
+        const shouldAdd = !this.contains(callback);
+        if (shouldAdd) {
+            this._jobs.push(callback);
+        }
+        return shouldAdd;
+    }
+
+    /**
+     * Checks whether the given callback is in the handler list.
+     * @param {ElementChangedCallback} callback the callback to test
+     * @returns {boolean} whether the handler contains this callback
+     */
+    contains(callback) {
+        return this._jobs.includes(callback);
+    }
+
+    /**
+     * Removes the given callback from the handler, if it is present.
+     * @param {ElementChangedCallback} callback the callback to remove
+     * @returns {boolean} whether the callback was contained
+     */
+    remove(callback) {
+        const i = this._jobs.indexOf(callback);
+        if (i >= 0) {
+            this._jobs.splice(i, 1);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Runs all callbacks on the latest and the new element.
+     * @param {Observable} current the new element to trigger the callbacks on
+     * @param {Cesium.Viewer} viewer the viewer
+     */
+    run(current, viewer) {
+        const previous = this._previous;
+        this._previous = current;
+
+        this._jobs.forEach(callback => callback(current, previous, viewer));
+    }
+}
+
+
+/**
+ * An event handler that fires when the selected data source changes.
+ */
+class DataSourceChangedHandler extends EventHandler {
+}
+
+
+/**
+ * An event handler that fires when the selected entity changes.
+ *
+ * To prevent the user from selecting and thus firing callbacks on entities that
+ * are for visualization only but should not be interacted with, these entities
+ * can set to be ignored by the callbacks.
+ */
+class EntityChangedHandler extends EventHandler {
+    /** @inheritdoc */
+    constructor() {
+        super();
+
+        /**
+         * Holds entities to be ignored by this handler.
+         * @type {Set&lt;Cesium.Entity>}
+         */
+        this._ignore = new Set();
+    }
+
+    /**
+     * Marks an entity to be ignored when clicking on it, such that it will not
+     * be the selected entity and no callbacks are run on the event.
+     * @param {Cesium.Entity} entity the entity to ignore
+     */
+    ignore(entity) {
+        this._ignore.add(entity);
+    }
+
+    /**
+     * Runs the subscribed callbacks when the selected entity changed and the
+     * currently selected entity is not set to be ignored.
+     * @param {Cesium.Entity} current the selected entity
+     * @param {Cesium.Viewer} viewer the viewer
+     */
+    run(current, viewer) {
+        // if (!this._ignore.has(current)) {
+        //     current = undefined;
+        // }
+        // EventHandler.prototype.run.call(this, current, viewer);
+
+        if (current !== this._previous &amp;&amp; !this._ignore.has(current)) {
+            EventHandler.prototype.run.call(this, current, viewer);
+        }
+    }
+}
+
+
+/**
+ * An event handler that fires when the time changes.
+ *
+ * As the time changes in the contained value and not through the assigned date
+ * object, the event handler must be adapted by comparing the actual timestamps.
+ */
+class TimeChangedHandler extends EventHandler {
+    /** @inheritdoc */
+    constructor() {
+        super();
+
+        /**
+         * Holds the time on which the handler was triggered last.
+         * @type {Cesium.JulianDate}
+         */
+        this._previous = new Cesium.JulianDate();
+
+        /**
+         * This instance is passed to the callbacks to avoid exposing the
+         * value that this handler relies on (callbacks might change the value).
+         * Reusing this instance avoids creating a new object on every call.
+         * @type {Cesium.JulianDate}
+         */
+        this._previousDummy = new Cesium.JulianDate();
+
+        /**
+         * This instance is passed to the callbacks to avoid exposing the
+         * actual clock date instance (callbacks might change the value).
+         * Reusing this instance avoids creating a new object on every call.
+         * @type {Cesium.JulianDate}
+         */
+        this._currentDummy = new Cesium.JulianDate();
+    }
+
+    /**
+     * Runs the subscribed callbacks only if the time did actually change from
+     * the last call to this function.
+     * @param {Cesium.JulianDate} time the current time
+     * @param {Cesium.Viewer} viewer the viewer
+     */
+    run(time, viewer) {
+        const previous = this._previousDummy;
+        const current = this._currentDummy;
+
+        // Only fire the callbacks if the time has actually changed.
+        if (!Cesium.JulianDate.equals(time, this._previous)) {
+            // Set the time for the callbacks.
+            Cesium.JulianDate.clone(this._previous, previous);
+            Cesium.JulianDate.clone(time, current);
+            // Save the current time.
+            Cesium.JulianDate.clone(time, this._previous);
+            // Run the callbacks and pass the dummy instances only.
+            this._jobs.forEach(callback => callback(current, previous, viewer));
+        }
+    }
+}
+
+
+/**
+ * An initialization function to be called after the viewer was created.
+ *
+ * The callbacks are called with the instantiated viewer and the mode in which
+ * Teamwise was started, which can be one of:
+ * - `"basic"`: no synchronization
+ * - `"master"`: the controlling instance of synchronization
+ * - `"slave"`: a synchronized instance that is controlled by a master
+ * - `"vr"`: a slave that may enter stereoscopic view
+ * @callback StartupCallback
+ * @param {Cesium.Viewer} viewer the viewer
+ * @param {string} mode the synchronization mode Teamwise is running in
+ * @returns {void}
+ */
+
+/**
+ * An element that is observed by a handler.
+ * @typedef {*} Observable
+ */
+
+/**
+ * A callback that fires when the selected entity has changed.
+ * @callback ElementChangedCallback
+ * @param {Observable} current the new element, might be undefined
+ * @param {Observable} previous the previous element, might be undefined
+ * @param {Cesium.Viewer} viewer the viewer
+ * @returns {void}
+ */
+
+/** Collects all tasks that must be done before starting Cesium. */
+const startupHandler = new StartupHandler();
+
+/** Handles tasks to execute when the selected data source changes. */
+const onDataSourceChanged = new DataSourceChangedHandler();
+
+/** Runs callbacks that are executed when the selection of an entity changes. */
+const onEntityChanged = new EntityChangedHandler();
+
+/** Runs the subscribed callbacks each time the clock time actually changes. */
+const onTimeChanged = new TimeChangedHandler();
+
+export {
+    startupHandler,
+    onDataSourceChanged,
+    onEntityChanged,
+    onTimeChanged
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Animal.html">Animal</a></li><li><a href="DataSourceChangedHandler.html">DataSourceChangedHandler</a></li><li><a href="Deployment.html">Deployment</a></li><li><a href="EntityChangedHandler.html">EntityChangedHandler</a></li><li><a href="EventHandler.html">EventHandler</a></li><li><a href="MenuPanel.html">MenuPanel</a></li><li><a href="MenuPanelCard.html">MenuPanelCard</a></li><li><a href="Movebank.html">Movebank</a></li><li><a href="MovebankStudy.html">MovebankStudy</a></li><li><a href="PS4GamepadHandler.html">PS4GamepadHandler</a></li><li><a href="StartupHandler.html">StartupHandler</a></li><li><a href="TimeChangedHandler.html">TimeChangedHandler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addDataSourceOption">addDataSourceOption</a></li><li><a href="global.html#addMenuButtonWithFullSizePanel">addMenuButtonWithFullSizePanel</a></li><li><a href="global.html#addMenuButtonWithoutPanel">addMenuButtonWithoutPanel</a></li><li><a href="global.html#asIso8601">asIso8601</a></li><li><a href="global.html#BAD_LOGIN">BAD_LOGIN</a></li><li><a href="global.html#clearDirectory">clearDirectory</a></li><li><a href="global.html#closeAccordions">closeAccordions</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createAccordionMenuEntry">createAccordionMenuEntry</a></li><li><a href="global.html#createDataSource">createDataSource</a></li><li><a href="global.html#createDescriptionString">createDescriptionString</a></li><li><a href="global.html#createEntity">createEntity</a></li><li><a href="global.html#createExtensionMenuEntry">createExtensionMenuEntry</a></li><li><a href="global.html#createListEntry">createListEntry</a></li><li><a href="global.html#createLogin">createLogin</a></li><li><a href="global.html#createNormalMenuEntry">createNormalMenuEntry</a></li><li><a href="global.html#createPanelHtmlString">createPanelHtmlString</a></li><li><a href="global.html#createQrCode">createQrCode</a></li><li><a href="global.html#createViewer">createViewer</a></li><li><a href="global.html#d3Date">d3Date</a></li><li><a href="global.html#d3Startup">d3Startup</a></li><li><a href="global.html#dataPoints">dataPoints</a></li><li><a href="global.html#extensionCount">extensionCount</a></li><li><a href="global.html#extractData">extractData</a></li><li><a href="global.html#fullTrajectory">fullTrajectory</a></li><li><a href="global.html#getInterpolationOptions">getInterpolationOptions</a></li><li><a href="global.html#hideMenuPanels">hideMenuPanels</a></li><li><a href="global.html#initEntities">initEntities</a></li><li><a href="global.html#initGamepad">initGamepad</a></li><li><a href="global.html#initSync">initSync</a></li><li><a href="global.html#lineChart">lineChart</a></li><li><a href="global.html#loadAllStudies">loadAllStudies</a></li><li><a href="global.html#loadAnimals">loadAnimals</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadDeployments">loadDeployments</a></li><li><a href="global.html#loadKmlFile">loadKmlFile</a></li><li><a href="global.html#loadMbData">loadMbData</a></li><li><a href="global.html#manageCameraAttachment">manageCameraAttachment</a></li><li><a href="global.html#markButton">markButton</a></li><li><a href="global.html#minAlt">minAlt</a></li><li><a href="global.html#modelURI">modelURI</a></li><li><a href="global.html#movebank">movebank</a></li><li><a href="global.html#NO_DATA_AVAILABLE">NO_DATA_AVAILABLE</a></li><li><a href="global.html#NOT_LOGGED_IN">NOT_LOGGED_IN</a></li><li><a href="global.html#ocpuCall">ocpuCall</a></li><li><a href="global.html#ocpuRPC">ocpuRPC</a></li><li><a href="global.html#onDataSourceChanged">onDataSourceChanged</a></li><li><a href="global.html#onEntityChanged">onEntityChanged</a></li><li><a href="global.html#onStudySelected">onStudySelected</a></li><li><a href="global.html#onTimeChanged">onTimeChanged</a></li><li><a href="global.html#PERMISSION_DENIED">PERMISSION_DENIED</a></li><li><a href="global.html#queryGamepads">queryGamepads</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#restoreButtonBackgrounds">restoreButtonBackgrounds</a></li><li><a href="global.html#restoreSubMenuButtonBackgrounds">restoreSubMenuButtonBackgrounds</a></li><li><a href="global.html#saveConfig">saveConfig</a></li><li><a href="global.html#saveFile">saveFile</a></li><li><a href="global.html#searchStudies">searchStudies</a></li><li><a href="global.html#sendFilePath">sendFilePath</a></li><li><a href="global.html#setCameraAttachment">setCameraAttachment</a></li><li><a href="global.html#setCheckboxAction">setCheckboxAction</a></li><li><a href="global.html#setFormAction">setFormAction</a></li><li><a href="global.html#setOnEventAction">setOnEventAction</a></li><li><a href="global.html#showLineChart">showLineChart</a></li><li><a href="global.html#startup">startup</a></li><li><a href="global.html#startupHandler">startupHandler</a></li><li><a href="global.html#studyDescription">studyDescription</a></li><li><a href="global.html#studyMarker">studyMarker</a></li><li><a href="global.html#switchToDataSource">switchToDataSource</a></li><li><a href="global.html#TEMP_DIR">TEMP_DIR</a></li><li><a href="global.html#terrainMinAlt">terrainMinAlt</a></li><li><a href="global.html#toggleMenu">toggleMenu</a></li><li><a href="global.html#updateViews">updateViews</a></li><li><a href="global.html#uploadAndSendFile">uploadAndSendFile</a></li><li><a href="global.html#uploadFile">uploadFile</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#ws">ws</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 25 2019 15:55:20 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+#view2D {
+    position:relative;
+    display: none; 
+    border: 2px solid hsla(234, 10%, 63%, 0.993);
+    bottom:30%;  
+    left: 35%; 
+    width: 30%; 
+    height: 25%
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: cameraManagement.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: cameraManagement.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {viewer, systemState} from "./mainCore.js";
+import {startupHandler} from "./handlers.js";
+
+startupHandler.addAfterStartup(viewer => {
+    // Any camera perspective adjustments should be performed on preRender to avoid delayed calculations.
+    viewer.scene.preRender.addEventListener(function (_scene, time) {
+        if (systemState.cameraAttachedToEntity) {
+            manageCameraAttachment(time);
+        }
+        // This prevents the camera from becoming crooked by setting the cameras roll value to 0 before rendering.
+        // This prevents the user from uncomfortable view positions.
+        viewer.camera.setView({
+            orientation: {
+                heading: viewer.camera.heading,
+                pitch: viewer.camera.pitch,
+                roll: 0.0
+            }
+        });
+    });
+});
+
+
+
+/**
+ * This function performs the operations that are necessary in order to have the camera behaving like it has been specified
+ * in the variables {@link systemState.cameraAttachedToEntity} and {@link systemState.cameraOrientationAttachedToEntity}.
+ * @param {*} time The current time, i.e. the time point that is going to be rendered
+ * and that the camera should behave according to.
+ */
+function manageCameraAttachment(time) {
+    // Grabbing position of the attached entity
+    const position = systemState.cameraTrackedEntity.position.getValue(time);
+    if (!Cesium.defined(position)) {
+        return;
+    }
+
+    // The transform sets a coordinate system transformation matrix for the camera
+    // By choosing this according to the tracked entities' position and orientation,
+    // we set the reference frame of the camera to be the same as the reference frame of the entity.
+    let transform;
+    if (!Cesium.defined(systemState.cameraTrackedEntity.orientation) || !systemState.cameraOrientationAttachedToEntity) {
+        // if there is no orientation OR if we do not want the camera to be synchronised with the entities orientation
+        transform = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+    } else {
+        const orientation = systemState.cameraTrackedEntity.orientation.getValue(time);
+        if (!Cesium.defined(orientation)) {
+            return;
+        }
+
+        transform = Cesium.Matrix4.fromRotationTranslation(Cesium.Matrix3.fromQuaternion(orientation), position);
+    }
+
+    // Save the current camera state, which is relative to the entities/cameras reference frame
+    // from the last render process.
+    const offset = Cesium.Cartesian3.clone(viewer.camera.position);
+    const direction = Cesium.Cartesian3.clone(viewer.camera.direction);
+    const up = Cesium.Cartesian3.clone(viewer.camera.up);
+
+    // Set camera to be in model's reference frame.
+    viewer.camera.lookAtTransform(transform);
+
+    // Reset the camera state to the saved state so it appears fixed in the model's frame.
+    Cesium.Cartesian3.clone(offset, viewer.camera.position);
+    Cesium.Cartesian3.clone(direction, viewer.camera.direction);
+    Cesium.Cartesian3.clone(up, viewer.camera.up);
+    Cesium.Cartesian3.cross(direction, up, viewer.camera.right);
+}
+
+/**
+ * This function is used to change the attachment mode/behaviour of the camera.
+ * Mode `0` means no attachment, i.e. a static viewpoint.
+ * Mode `1` means that the camera is only attached to the entities position but not to its orientation.
+ * Mode `2` means that the camera is attached to the entities position as well as its orientation.
+ * @param {number} mode The new tracking mode that is going to be set. It may be `0`, `1` or `2`.
+ * For more information see function description.
+ * @param {Cesium.Cartesian3} position The initial position that will be assigned to the camera.
+ * @param {*} direction The initial direction that will be assigned to the camera.
+ */
+function setCameraAttachment(mode, position, direction) {
+    if (mode === 0) {
+        // Store relative camera positions in world coordinates to ensure smooth transition during unattachment.
+        const pos = viewer.camera.positionWC.clone();
+        const dir = viewer.camera.directionWC.clone();
+        systemState.cameraAttachedToEntity = false;
+        systemState.cameraOrientationAttachedToEntity = false;
+        // Resetting the cameras transformation matrix is important here.
+        // Otherwise the camera controls would behave quite counterintuitive
+        // as they will still be relative to the entities last position during camera attachment.
+        viewer.camera.setView({ endTransform: Cesium.Matrix4.IDENTITY });
+        // Restore relative camera positions.
+        viewer.camera.position = pos;
+        viewer.camera.direction = dir;
+    } else if (viewer.selectedEntity) {
+        // Set initial camera position and orientation to be when in the model's reference frame.
+        // This is relative to the entity that the camera is attached to.
+        viewer.camera.position = position;
+        viewer.camera.direction = direction;
+        // viewer.camera.up = new Cesium.Cartesian3(0.0, 0.0, 1.0);
+        // viewer.camera.right = new Cesium.Cartesian3(0.0, -1.0, 0.0);
+        systemState.cameraTrackedEntity = viewer.selectedEntity;
+        // Managing the flags that are important for the render loop in the mainCore.
+        systemState.cameraAttachedToEntity = true;
+        systemState.cameraOrientationAttachedToEntity = (mode === 2);
+
+        // As the performance of different systems may cause the problem that the next render loop
+        // only occurs when the above set relative camera positions have already been outdated,
+        // we call the management function once before to ensure the fixation of the relative camera parameters.
+        // This does not change anything but just prevents from the above described bug.
+        // Took me 3 days to figure that out! :)
+        manageCameraAttachment(viewer.clock.currentTime);
+    }
+}
+
+export {
+    setCameraAttachment
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Animal.html">Animal</a></li><li><a href="DataSourceChangedHandler.html">DataSourceChangedHandler</a></li><li><a href="Deployment.html">Deployment</a></li><li><a href="EntityChangedHandler.html">EntityChangedHandler</a></li><li><a href="EventHandler.html">EventHandler</a></li><li><a href="MenuPanel.html">MenuPanel</a></li><li><a href="MenuPanelCard.html">MenuPanelCard</a></li><li><a href="Movebank.html">Movebank</a></li><li><a href="MovebankStudy.html">MovebankStudy</a></li><li><a href="PS4GamepadHandler.html">PS4GamepadHandler</a></li><li><a href="StartupHandler.html">StartupHandler</a></li><li><a href="TimeChangedHandler.html">TimeChangedHandler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addDataSourceOption">addDataSourceOption</a></li><li><a href="global.html#addMenuButtonWithFullSizePanel">addMenuButtonWithFullSizePanel</a></li><li><a href="global.html#addMenuButtonWithoutPanel">addMenuButtonWithoutPanel</a></li><li><a href="global.html#asIso8601">asIso8601</a></li><li><a href="global.html#BAD_LOGIN">BAD_LOGIN</a></li><li><a href="global.html#clearDirectory">clearDirectory</a></li><li><a href="global.html#closeAccordions">closeAccordions</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#createAccordionMenuEntry">createAccordionMenuEntry</a></li><li><a href="global.html#createDataSource">createDataSource</a></li><li><a href="global.html#createDescriptionString">createDescriptionString</a></li><li><a href="global.html#createEntity">createEntity</a></li><li><a href="global.html#createExtensionMenuEntry">createExtensionMenuEntry</a></li><li><a href="global.html#createListEntry">createListEntry</a></li><li><a href="global.html#createLogin">createLogin</a></li><li><a href="global.html#createNormalMenuEntry">createNormalMenuEntry</a></li><li><a href="global.html#createPanelHtmlString">createPanelHtmlString</a></li><li><a href="global.html#createQrCode">createQrCode</a></li><li><a href="global.html#createViewer">createViewer</a></li><li><a href="global.html#d3Date">d3Date</a></li><li><a href="global.html#d3Startup">d3Startup</a></li><li><a href="global.html#dataPoints">dataPoints</a></li><li><a href="global.html#extensionCount">extensionCount</a></li><li><a href="global.html#extractData">extractData</a></li><li><a href="global.html#fullTrajectory">fullTrajectory</a></li><li><a href="global.html#getInterpolationOptions">getInterpolationOptions</a></li><li><a href="global.html#hideMenuPanels">hideMenuPanels</a></li><li><a href="global.html#initEntities">initEntities</a></li><li><a href="global.html#initGamepad">initGamepad</a></li><li><a href="global.html#initSync">initSync</a></li><li><a href="global.html#lineChart">lineChart</a></li><li><a href="global.html#loadAllStudies">loadAllStudies</a></li><li><a href="global.html#loadAnimals">loadAnimals</a></li><li><a href="global.html#loadData">loadData</a></li><li><a href="global.html#loadDeployments">loadDeployments</a></li><li><a href="global.html#loadKmlFile">loadKmlFile</a></li><li><a href="global.html#loadMbData">loadMbData</a></li><li><a href="global.html#manageCameraAttachment">manageCameraAttachment</a></li><li><a href="global.html#markButton">markButton</a></li><li><a href="global.html#minAlt">minAlt</a></li><li><a href="global.html#modelURI">modelURI</a></li><li><a href="global.html#movebank">movebank</a></li><li><a href="global.html#NO_DATA_AVAILABLE">NO_DATA_AVAILABLE</a></li><li><a href="global.html#NOT_LOGGED_IN">NOT_LOGGED_IN</a></li><li><a href="global.html#ocpuCall">ocpuCall</a></li><li><a href="global.html#ocpuRPC">ocpuRPC</a></li><li><a href="global.html#onDataSourceChanged">onDataSourceChanged</a></li><li><a href="global.html#onEntityChanged">onEntityChanged</a></li><li><a href="global.html#onStudySelected">onStudySelected</a></li><li><a href="global.html#onTimeChanged">onTimeChanged</a></li><li><a href="global.html#PERMISSION_DENIED">PERMISSION_DENIED</a></li><li><a href="global.html#queryGamepads">queryGamepads</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#restoreButtonBackgrounds">restoreButtonBackgrounds</a></li><li><a href="global.html#restoreSubMenuButtonBackgrounds">restoreSubMenuButtonBackgrounds</a></li><li><a href="global.html#saveConfig">saveConfig</a></li><li><a href="global.html#saveFile">saveFile</a></li><li><a href="global.html#searchStudies">searchStudies</a></li><li><a href="global.html#sendFilePath">sendFilePath</a></li><li><a href="global.html#setCameraAttachment">setCameraAttachment</a></li><li><a href="global.html#setCheckboxAction">setCheckboxAction</a></li><li><a href="global.html#setFormAction">setFormAction</a></li><li><a href="global.html#setOnEventAction">setOnEventAction</a></li><li><a href="global.html#showLineChart">showLineChart</a></li><li><a href="global.html#startup">startup</a></li><li><a href="global.html#startupHandler">startupHandler</a></li><li><a href="global.html#studyDescription">studyDescription</a></li><li><a href="global.html#studyMarker">studyMarker</a></li><li><a href="global.html#switchToDataSource">switchToDataSource</a></li><li><a href="global.html#TEMP_DIR">TEMP_DIR</a></li><li><a href="global.html#terrainMinAlt">terrainMinAlt</a></li><li><a href="global.html#toggleMenu">toggleMenu</a></li><li><a href="global.html#updateViews">updateViews</a></li><li><a href="global.html#uploadAndSendFile">uploadAndSendFile</a></li><li><a href="global.html#uploadFile">uploadFile</a></li><li><a href="global.html#viewer">viewer</a></li><li><a href="global.html#ws">ws</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 25 2019 15:55:20 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

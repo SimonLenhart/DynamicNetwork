@@ -1,0 +1,17 @@
+{
+  "name": "network_extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "network_extension.js",
+  "dependencies": {
+    "@dagrejs/graphlib": "^2.1.4",
+    "chart.js": "^2.8.0",
+    "graphlib": "^2.1.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felix Loeffler, Simon Lenhart, Melissa Michalke, Nicolai Kraus",
+  "license": "ISC"
+}
