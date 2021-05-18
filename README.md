@@ -10,3 +10,9 @@ If you want to obtain more information about this project, please feel free to c
 
 ![GuiPic1](/ExamplePictures/GUI1.png)
 ![GuiPic2](/ExamplePictures/GUI2.png)
+
+
+![NetPic1](/ExamplePictures/Network1.png)
+![NetPic2](/ExamplePictures/Network2.png)
+
+
