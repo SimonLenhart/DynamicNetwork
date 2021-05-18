@@ -8,10 +8,13 @@ The whole project was realized by @SimonLenhart in cooperation with three other 
 
 If you want to obtain more information about this project, please feel free to contact me: simon.lenhart@gmx.de
 
+Example Screenshots: 
+
+1. GUI: Selection of the desired network generation type or the analysis type.
 ![GuiPic1](/ExamplePictures/GUI1.png)
 ![GuiPic2](/ExamplePictures/GUI2.png)
 
-
+2. Visualisation: Generated network gets displayed interactively.
 ![NetPic1](/ExamplePictures/Network1.png)
 ![NetPic2](/ExamplePictures/Network2.png)
 
