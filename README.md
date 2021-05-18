@@ -8,6 +8,8 @@ The whole project was realized by @SimonLenhart in cooperation with three other 
 
 If you want to obtain more information about this project, please feel free to contact me: simon.lenhart@gmx.de
 
+![GitHub Logo](/ExamplePictures/GUI1.png)
+
 ![Screenshot (196)](https://user-images.githubusercontent.com/66257427/118718788-f5ae2c80-b827-11eb-9e20-57a54efad357.png)
 ![Screenshot (197)](https://user-images.githubusercontent.com/66257427/118718813-fe066780-b827-11eb-8cfe-0067683c3a59.png)
 
