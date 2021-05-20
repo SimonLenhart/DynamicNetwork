@@ -9,11 +9,11 @@ The whole project was realized by @SimonLenhart in cooperation with three other 
 ## Example Screenshots:
 
 1. GUI: Selection of the desired network generation type or the analysis type. <br />
-![GuiPic1](/ExamplePictures/GUI1.png)
+![GuiPic1](/ExamplePictures/GUI1.png) &nbsp; &nbsp; &nbsp;
 ![GuiPic2](/ExamplePictures/GUI2.png) <br />
 
-2. Visualisation: Generated network gets displayed interactively. <br />
-![NetPic1](/ExamplePictures/Network1.png)
+2. Visualisation: Generated network gets displayed dynamically. <br />
+![NetPic1](/ExamplePictures/Network1.png) &nbsp; &nbsp; &nbsp;
 ![NetPic2](/ExamplePictures/Network2.png)
 
 ## Contact
